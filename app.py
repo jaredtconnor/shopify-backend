@@ -8,7 +8,21 @@ from models import Suppliers, supplier_pydantic, supplier_pydanticIn
 from models import Orders, order_pydantic, order_pydanticIn
 from models import Purchasers, purchase_pydantic, purchase_pydanticIn
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+
+## MiddleWare
+origins = {"http://localhost:3000"}
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -219,6 +233,7 @@ async def link_purchase_product(product_id: int, purchase_info: purchase_pydanti
 
     response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
     return {"status": "ok", "data": response}
+
 
 @app.post("/purchase/{supplier_id}")
 async def link_purchase_product(supplier_id: int, purchase_info: purchase_pydanticIn):
