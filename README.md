@@ -9,7 +9,7 @@ Information: You can use frameworks, libraries and external dependencies to help
 
 Please focus on what interests you the most. If you need inspiration, here are examples of what you can work on.
 
-## `Requirements: 
+## Requirements: 
 Basic CRUD Functionality. You should be able to:
 - Create inventory items
 - Edit Them
