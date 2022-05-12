@@ -1,0 +1,15 @@
+.comment_num { 
+    display: inline-block; 
+}
+
+.post_date {
+   display: inline-block;
+}
+
+.user_name { 
+    display: inline-block;
+}
+
+.comment { 
+    margin-bottom: 0px;
+}
