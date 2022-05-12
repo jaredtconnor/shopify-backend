@@ -14,6 +14,7 @@ class Products(Model):
 class Purchasers(Model):
 
     id = fields.IntField(pk=True)
+    purchase_date = fields.DateField(auto_now_add=True)
     number_items = fields.IntField(default=0)
     product = fields.ForeignKeyField("models.Products")
     supplier = fields.ForeignKeyField("models.Suppliers")
@@ -39,3 +40,9 @@ product_pydanticIn = pydantic_model_creator(Products, name="ProductIn", exclude_
 
 supplier_pydantic = pydantic_model_creator(Suppliers, name="Suppliers")
 supplier_pydanticIn = pydantic_model_creator(Suppliers, name="SuppliersIn", exclude_readonly=True)
+
+order_pydantic = pydantic_model_creator(Orders, name="Orders")
+order_pydanticIn = pydantic_model_creator(Orders, name="Orders", exclude_readonly=True)
+
+purchase_pydantic = pydantic_model_creator(Purchasers, name="Purchases")
+purchase_pydanticIn = pydantic_model_creator(Purchasers, name="Purchases", exclude_readonly=True)
