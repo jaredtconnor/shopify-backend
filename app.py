@@ -1,5 +1,6 @@
 from urllib import response
 from fastapi import FastAPI
+import pydantic
 from tortoise.contrib.fastapi import register_tortoise
 
 from models import Products, product_pydantic, product_pydanticIn
@@ -128,6 +129,18 @@ async def add_order(order_info: order_pydantic):
     return {"status": "ok", "data": response}
 
 
+@app.post("/order/{product_id}")
+async def link_product(product_id: int, order_details: order_pydanticIn):
+
+    product = await Products.get(id=product_id)
+    order = order_details.dict(exclude_onset=True)
+
+    order_obj = await Orders.create(**order_details, supplied_by=product)
+
+    response = await order_pydantic.from_tortoise_orm(order_obj)
+    return {"status": "ok", "data": response}
+
+
 @app.get("/order")
 async def get_orders():
 
@@ -193,6 +206,29 @@ async def get_purchase(purchase_id: int):
     response = await purchase_pydantic.from_queryset_single(
         Purchasers.get(id=purchase_id)
     )
+    return {"status": "ok", "data": response}
+
+
+@app.post("/purchase/{product_id}")
+async def link_purchase_product(product_id: int, purchase_info: purchase_pydanticIn):
+
+    product = await Products.get(id=product_id)
+    purchase = purchase_info.dict(exclude_unset=True)
+
+    purchase_obj = await Purchasers.create(**purchase_info, supplied_by=product)
+
+    response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
+    return {"status": "ok", "data": response}
+
+@app.post("/purchase/{supplier_id}")
+async def link_purchase_product(supplier_id: int, purchase_info: purchase_pydanticIn):
+
+    supplier = await Suppliers.get(id=supplier_id)
+    purchase = purchase_info.dict(exclude_unset=True)
+
+    purchase_obj = await Purchasers.create(**purchase_info, supplied_by=supplier)
+
+    response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
     return {"status": "ok", "data": response}
 
 
