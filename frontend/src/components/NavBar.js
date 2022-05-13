@@ -1,14 +1,16 @@
 import react from "react"
-import { Navbar, Nav, Container } from "react-bootstrap"
+import { Navbar, Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 const NavBar = () => {
-    // <Navbar bg="light">
-        // <Container>
-            // <h3>Inventory Management Service</h3>
-        // </Container>
-    // </Navbar>
-    <h3>Inventory Management Service</h3>
+    return (
+        <Navbar bg="light">
+            <Container>
+                <Navbar.Brand>Inventory Management System - Shopify</Navbar.Brand>
+            </Container>
+        </Navbar>
+
+    )
 }
 
-export default NavBar;
+export default NavBar; 
