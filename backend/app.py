@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 import pydantic
 from tortoise.contrib.fastapi import register_tortoise
+from uuid import uuid4
 
-from models import Products, product_pydantic, product_pydanticIn
-from models import Suppliers, supplier_pydantic, supplier_pydanticIn
-from models import Orders, order_pydantic, order_pydanticIn
-from models import Purchasers, purchase_pydantic, purchase_pydanticIn
+from models import Product, product_pydantic, product_pydanticIn
+from models import Warehouse, warehouse_pydantic, warehouse_pydanticIn
+from models import Order, order_pydantic, order_pydanticIn
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -30,105 +30,108 @@ def index():
 
 
 # =======================================================
+# Warehouse Routes
+# =======================================================
+
+
+@app.post("/warehouse")
+async def add_warehouse(warehouse_info: warehouse_pydanticIn):
+    warehouse_obj = await Warehouse.create(**warehouse_info.dict(exclude_unset=True))
+    response = await warehouse_pydantic.from_tortoise_orm(warehouse_obj)
+    return {"status": "ok", "data": response}
+
+
+@app.get("/warehouse")
+async def get_warehouses():
+
+    response = await warehouse_pydantic.from_queryset(Warehouse.all())
+    return {"status": "ok", "data": response}
+
+
+@app.get("/warehouse/{warehouse_id}")
+async def get_warehouse(warehouse_id: int):
+
+    response = await warehouse_pydantic.from_queryset_single(
+        Warehouse.get(id=warehouse_id)
+    )
+    return {"status": "ok", "data": response}
+
+
+@app.put("/warehouse/{warehouse_id}")
+async def update_warehouse(warehouse_id: int, update_info: warehouse_pydanticIn):
+
+    warehouse_obj = await Warehouse.get(id=warehouse_id)
+
+    update_info = update_info.dict(exclude_unset=True)
+
+    warehouse_obj.name = update_info["name"]
+    warehouse_obj.location = update_info["location"]
+
+    await warehouse_obj.save()
+
+    response = await warehouse_pydantic.from_tortoise_orm(warehouse_obj)
+    return {"status": "ok", "data": response}
+
+
+@app.delete("/warehouse/{warehouse_id}")
+async def delete_warehouse(warehouse_id: int):
+
+    response = await Warehouse.filter(id=warehouse_id).delete()
+    return {"status": "ok", "data": response}
+
+
+# =======================================================
 # Product Routes
 # =======================================================
 
 
-@app.post("/product")
-async def add_product(product_info: product_pydantic):
+@app.post("/product/{warehouse_id}")
+async def add_product(warehouse_id: int, product_info: product_pydanticIn):
 
-
-    product_obj = await Products.create(**product_info.dict(exclude_unset=True))
+    warehouse = await Warehouse.get(id=warehouse_id)
+    product_info = product_info.dict(exclude_unset=True)
+    product_obj = await Product.create(**product_info, warehouse_id=warehouse)
     response = await product_pydantic.from_tortoise_orm(product_obj)
+
     return {"status": "ok", "data": response}
 
 
 @app.get("/product")
 async def get_products():
 
-    response = await product_pydantic.from_queryset(Products.all())
+    response = await product_pydantic.from_queryset(Product.all())
     return {"status": "ok", "data": response}
 
 
 @app.get("/product/{product_id}")
 async def get_product(product_id: int):
 
-    response = await product_pydantic.from_queryset_single(Products.get(id=product_id))
+    response = await product_pydantic.from_queryset_single(Product.get(id=product_id))
     return {"status": "ok", "data": response}
 
 
 @app.put("/product/{product_id}")
 async def update_product(product_id: int, update_info: product_pydanticIn):
 
-    product = await Products.get(id=product_id)
+    product_obj = await Product.get(id=product_id)
 
     update_info = update_info.dict(exclude_unset=True)
-    
-    product.name = update_info["name"]
-    product.category = update_info["category"]
-    product.inventory = update_info["inventory"]
-    product.price = update_info["price"]
 
-    await product.save()
+    product_obj.name = update_info["name"]
+    product_obj.category = update_info["category"]
+    product_obj.inventory = update_info["inventory"]
+    product_obj.price = update_info["price"]
 
-    response = await product_pydantic.from_tortoise_orm(product)
+    await product_obj.save()
+
+    response = await product_pydantic.from_tortoise_orm(product_obj)
     return {"status": "ok", "data": response}
 
 
 @app.delete("/product/{product_id}")
 async def delete_product(product_id: int):
 
-    response = await Products.filter(id=product_id).delete()
-    return {"status": "ok", "data": response}
-
-
-# =======================================================
-# Supplier Routes
-# =======================================================
-
-
-@app.post("/supplier")
-async def add_supplier(supplier_info: supplier_pydantic):
-    supplier_obj = await Suppliers.create(**supplier_info.dict(exclude_unset=True))
-    response = await supplier_pydantic.from_tortoise_orm(supplier_obj)
-    return {"status": "ok", "data": response}
-
-
-@app.get("/supplier")
-async def get_suppliers():
-
-    response = await supplier_pydantic.from_queryset(Suppliers.all())
-    return {"status": "ok", "data": response}
-
-
-@app.get("/supplier/{supplier_id}")
-async def get_supplier(supplier_id: int):
-
-    response = await supplier_pydantic.from_queryset_single(
-        Suppliers.get(id=supplier_id)
-    )
-    return {"status": "ok", "data": response}
-
-
-@app.put("/supplier/{supplier_id}")
-async def update_supplier(supplier_id: int, update_info: supplier_pydantic):
-
-    supplier = await Suppliers.get(id=supplier_id)
-
-    update_info = update_info.dict(exclude_unset=True)
-
-    supplier.location = update_info["location"]
-
-    await Suppliers.save()
-
-    response = await supplier_pydantic.from_tortoise_orm(supplier)
-    return {"status": "ok", "data": response}
-
-
-@app.delete("/supplier/{supplier_id}")
-async def delete_supplier(supplier_id: int):
-
-    response = await Suppliers.filter(id=supplier_id).delete()
+    response = await Product.filter(id=product_id).delete()
     return {"status": "ok", "data": response}
 
 
@@ -136,21 +139,13 @@ async def delete_supplier(supplier_id: int):
 # Order Routes
 # =======================================================
 
-
-@app.post("/order")
-async def add_order(order_info: order_pydantic):
-    order_obj = await order_pydantic.create(**order_info.dict(exclude_unset=True))
-    response = await order_pydantic.from_tortoise_orm(order_obj)
-    return {"status": "ok", "data": response}
-
-
 @app.post("/order/{product_id}")
-async def link_product(product_id: int, order_details: order_pydanticIn):
+async def add_order(product_id: int, order_info: order_pydanticIn):
 
-    product = await Products.get(id=product_id)
-    order = order_details.dict(exclude_onset=True)
+    product = await Product.get(id=product_id)
+    order_info = order_info.dict(exclude_unset=True)
 
-    order_obj = await Orders.create(**order_details, supplied_by=product)
+    order_obj = await Order.create(**order_info, product_id=product)
 
     response = await order_pydantic.from_tortoise_orm(order_obj)
     return {"status": "ok", "data": response}
@@ -159,116 +154,40 @@ async def link_product(product_id: int, order_details: order_pydanticIn):
 @app.get("/order")
 async def get_orders():
 
-    response = await order_pydantic.from_queryset(Orders.all())
+    response = await order_pydantic.from_queryset(Order.all())
     return {"status": "ok", "data": response}
 
 
 @app.get("/order/{order_id}")
 async def get_order(order_id: int):
 
-    response = await order_pydantic.from_queryset_single(Orders.get(id=order_id))
+    response = await order_pydantic.from_queryset_single(Order.get(id=order_id))
     return {"status": "ok", "data": response}
 
 
 @app.put("/order/{order_id}")
-async def update_order(order_id: int, update_info: order_pydantic):
+async def update_order(order_id: int, update_info: order_pydanticIn):
 
-    order = await Orders.get(id=order_id)
+    order_obj = await Order.get(id=order_id)
 
     update_info = update_info.dict(exclude_unset=True)
 
-    order.order_date = update_info["order_date"]
-    order.customer_name = update_info["customer_name"]
-    order.number_items = update_info["number_items"]
+    order_obj.order_date = update_info["order_date"]
+    order_obj.customer_name = update_info["customer_name"]
+    order_obj.number_items = update_info["number_items"]
 
-    await Orders.save()
+    await order_obj.save()
 
-    response = await order_pydantic.from_tortoise_orm(order)
+    response = await order_pydantic.from_tortoise_orm(order_obj)
     return {"status": "ok", "data": response}
 
 
 @app.delete("/order/{oder_id}")
 async def delete_order(order_id: int):
 
-    response = await Orders.filter(id=order_id).delete()
+    response = await Order.filter(id=order_id).delete()
     return {"status": "ok", "data": response}
 
-
-# =======================================================
-# Purchase Routes
-# =======================================================
-
-
-@app.post("/purchase")
-async def add_purchase(purchase_info: purchase_pydantic):
-    purchase_obj = await purchase_pydantic.create(
-        **purchase_info.dict(exclude_unset=True)
-    )
-    response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
-    return {"status": "ok", "data": response}
-
-
-@app.get("/purchase")
-async def get_purchases():
-
-    response = await purchase_pydantic.from_queryset(Purchasers.all())
-    return {"status": "ok", "data": response}
-
-
-@app.get("/purchase/{purhcase_id}")
-async def get_purchase(purchase_id: int):
-
-    response = await purchase_pydantic.from_queryset_single(
-        Purchasers.get(id=purchase_id)
-    )
-    return {"status": "ok", "data": response}
-
-
-@app.post("/purchase/{product_id}")
-async def link_purchase_product(product_id: int, purchase_info: purchase_pydanticIn):
-
-    product = await Products.get(id=product_id)
-    purchase = purchase_info.dict(exclude_unset=True)
-
-    purchase_obj = await Purchasers.create(**purchase_info, supplied_by=product)
-
-    response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
-    return {"status": "ok", "data": response}
-
-
-@app.post("/purchase/{supplier_id}")
-async def link_purchase_product(supplier_id: int, purchase_info: purchase_pydanticIn):
-
-    supplier = await Suppliers.get(id=supplier_id)
-    purchase = purchase_info.dict(exclude_unset=True)
-
-    purchase_obj = await Purchasers.create(**purchase_info, supplied_by=supplier)
-
-    response = await purchase_pydantic.from_tortoise_orm(purchase_obj)
-    return {"status": "ok", "data": response}
-
-
-@app.put("/purchase/{purchase_id}")
-async def update_purchase(purchase_id: int, update_info: purchase_pydantic):
-
-    purchase = await Purchasers.get(id=purchase_id)
-
-    update_info = update_info.dict(exclude_unset=True)
-
-    purchase.purchase_date = update_info["purchase_date"]
-    purchase.number_items = update_info["number_items"]
-
-    await Purchasers.save()
-
-    response = await purchase_pydantic.from_tortoise_orm(purchase)
-    return {"status": "ok", "data": response}
-
-
-@app.delete("/purchase/{purchase_id}")
-async def delete_purchase(purchase_id: int):
-
-    response = await Purchasers.filter(id=purchase_id).delete()
-    return {"status": "ok", "data": response}
 
 register_tortoise(
     app,
