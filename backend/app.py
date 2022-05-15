@@ -1,4 +1,3 @@
-from urllib import response
 from fastapi import FastAPI
 import pydantic
 from tortoise.contrib.fastapi import register_tortoise
@@ -37,6 +36,8 @@ def index():
 
 @app.post("/product")
 async def add_product(product_info: product_pydantic):
+
+
     product_obj = await Products.create(**product_info.dict(exclude_unset=True))
     response = await product_pydantic.from_tortoise_orm(product_obj)
     return {"status": "ok", "data": response}
@@ -57,20 +58,20 @@ async def get_product(product_id: int):
 
 
 @app.put("/product/{product_id}")
-async def update_product(product_id: int, update_info: product_pydantic):
+async def update_product(product_id: int, update_info: product_pydanticIn):
 
     product = await Products.get(id=product_id)
 
     update_info = update_info.dict(exclude_unset=True)
-
+    
     product.name = update_info["name"]
     product.category = update_info["category"]
     product.inventory = update_info["inventory"]
     product.price = update_info["price"]
 
-    await Products.save()
+    await product.save()
 
-    respone = await product_pydantic.from_tortoise_orm(product)
+    response = await product_pydantic.from_tortoise_orm(product)
     return {"status": "ok", "data": response}
 
 
@@ -120,7 +121,7 @@ async def update_supplier(supplier_id: int, update_info: supplier_pydantic):
 
     await Suppliers.save()
 
-    respone = await supplier_pydantic.from_tortoise_orm(supplier)
+    response = await supplier_pydantic.from_tortoise_orm(supplier)
     return {"status": "ok", "data": response}
 
 
@@ -182,7 +183,7 @@ async def update_order(order_id: int, update_info: order_pydantic):
 
     await Orders.save()
 
-    respone = await order_pydantic.from_tortoise_orm(order)
+    response = await order_pydantic.from_tortoise_orm(order)
     return {"status": "ok", "data": response}
 
 
@@ -259,7 +260,7 @@ async def update_purchase(purchase_id: int, update_info: purchase_pydantic):
 
     await Purchasers.save()
 
-    respone = await purchase_pydantic.from_tortoise_orm(purchase)
+    response = await purchase_pydantic.from_tortoise_orm(purchase)
     return {"status": "ok", "data": response}
 
 
@@ -268,7 +269,6 @@ async def delete_purchase(purchase_id: int):
 
     response = await Purchasers.filter(id=purchase_id).delete()
     return {"status": "ok", "data": response}
-
 
 register_tortoise(
     app,

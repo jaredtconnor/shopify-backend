@@ -1,20 +1,18 @@
-import react from "react"
-import { Link, Route, Routes } from "react-router-dom";
+import react from "react";
 import NavBar from "./components/NavBar";
 
-import { ProductContext } from "./ProductContext";
-import ProductsTable from "./components/ProductsTable"
+import ProductsTable from "./components/ProductsTable";
 
 function App() {
   return (
-
     <div>
       <NavBar />
-      <ProductContext.Provider>
-        <ProductsTable />
-      </ProductContext.Provider>
+       <div className="row justify-content-center">
+        <div className="col-sm-10 col-xm-12 mr-auto ml-auto mt-4 mb-4">
+          <ProductsTable />
+        </div>
+      </div>
     </div>
-
   );
 }
 
