@@ -1,17 +1,22 @@
 import react from "react";
-import { Table, Button, Card, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import ReadTable from "./ReadTable";
+import { Table, Button, Card, Form } from "react-bootstrap"; import { useEffect, useState } from "react";
+import ReadProductTable from "./ReadProductTable";
+import ReadWarehouseTable from "./ReadWarehouseTable";
 import nextId from "react-id-generator";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState([]);
+  const [warehouses, setWarehouses] = useState([]);
+
   const [productInfo, setProductInfo] = useState({
-    name: "",
-    category: "",
-    inventory: "",
-    price: "",
+    ProductName: "",
+    ProductCategory: "",
+    ProductInvetory: 0,
+    ProductPrice: 0,
+    ProductWarehouse: 0
   });
+
+  const [editProductId, setEditProductId] = useState(null);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -22,14 +27,13 @@ const ProductsTable = () => {
   const postData = async (event) => {
     event.preventDefault();
 
-    const postUrl = "http://127.0.0.1:8000/product";
+    const postUrl = "http://127.0.0.1:8000/product/" + productInfo["ProductWarehouse"];
 
     const newProduct = JSON.stringify({
-      id: nextId(),
       name: productInfo["ProductName"],
       category: productInfo["ProductCategory"],
-      inventory: productInfo["ProductInvetory"],
-      price: productInfo["ProductPrice"],
+      inventory: parseInt(productInfo["ProductInvetory"]),
+      price: parseInt(productInfo["ProductPrice"]),
     });
 
     console.log(newProduct);
@@ -44,21 +48,24 @@ const ProductsTable = () => {
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
-      body: JSON.stringify(newProduct),
+      body: newProduct,
     });
 
     response.json().then((response) => {
       if (response.status === "ok") {
         alert("Product added successfully");
       } else {
+        console.log(response);
         alert("Failed to add product");
       }
     });
+
     setProductInfo({
-      name: "",
-      category: "",
-      inventory: "",
-      price: "",
+      ProductName: "",
+      ProductCategory: "",
+      ProductInvetory: 0,
+      ProductPrice: 0,
+      ProductWarehouse: 0
     });
   };
 
@@ -85,17 +92,49 @@ const ProductsTable = () => {
       });
   };
 
-  const handleUpdate = (product_id) => {
-    const product = products.filter((product) => product.id === product_id);
+  const handleEdit = (event, product) => {
 
-    setProductInfo({
-      id: product.id,
+    event.preventDefault();
+    setEditProductId(product.id);
+
+    const formValues = {
       name: product.name,
       category: product.category,
       inventory: product.inventory,
       price: product.price,
-    });
-  };
+      warehouse_id: product.warehouse_id
+    }
+
+    setProductInfo(formValues);
+  }
+
+  const handleEditClick = (input) => (event) => {
+    event.preventDefault();
+
+    setProductInfo({ ...productInfo, [input]: event.target.value })
+  }
+
+  const handleFormSave = (event) => {
+    event.preventDefault();
+
+    const productData = {
+      id: editProductId,
+      name: productInfo.name,
+      category: productInfo.category,
+      inventory: productInfo.inventory,
+      price: productInfo.price,
+      warehouse_id: productInfo.warehouse_id
+    }
+
+    const newProducts = [...products]
+
+    const formIndex = products.findIndex((product) => product.id === editProductId);
+
+    newProducts[formIndex] = productData;
+
+    setProducts(newProducts);
+    setEditProductId(null);
+  }
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/product")
@@ -107,23 +146,19 @@ const ProductsTable = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/warehouse")
+      .then((response) => {
+        return response.json();
+      })
+      .then((results) => {
+        setWarehouses(results.data);
+      });
+  }, []);
+
   return (
     <div>
-      <div className="product_table">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th scope="col">Product ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Category</th>
-              <th scope="col">Invetory</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ReadTable products={products} handleDelete={handleDelete} />
-          </tbody>
-        </Table>
+      <div className="p-2">
 
         <Card>
           <Card.Body>
@@ -168,13 +203,68 @@ const ProductsTable = () => {
                 />
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <Form.Group controlId="ProductWarehouse">
+                <Form.Label>Warehouse ID</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="ProductWarehouse"
+                  value={productInfo.warehouse_id}
+                  onChange={updateForm}
+                />
+              </Form.Group>
+
+              <Button className="m-1" variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
           </Card.Body>
         </Card>
       </div>
+      <div className="p-2">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th scope="col">Product ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Invetory</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ReadProductTable
+              products={products}
+              handleDelete={handleDelete}
+              modalShow={modalShow}
+              setModalShow={setModalShow}
+              handleFormSave={handleFormSave}
+              productInfo={productInfo}
+              setProductInfo={setProductInfo}
+              updateForm={updateForm}
+            />
+          </tbody>
+        </Table>
+      </div>
+
+
+      <div className="p-2">
+
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th scope="col">Warehouse ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ReadWarehouseTable warehouses={warehouses} />
+          </tbody>
+        </Table>
+      </div>
+
+
+
     </div>
   );
 };

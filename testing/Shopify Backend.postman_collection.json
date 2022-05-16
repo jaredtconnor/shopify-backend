@@ -1,0 +1,603 @@
+{
+	"info": {
+		"_postman_id": "4fd434a3-5dde-4423-a058-cbd696abf2ba",
+		"name": "Shopify Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add warehouse 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.environment.set(\"warehouse_1_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"k_mart\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"location\"]).to.eq(\"Portland, OR\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"k_mart\",\r\n  \"location\": \"Portland, OR\"\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/warehouse",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"warehouse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add warehouse 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.environment.set(\"warehouse_2_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"Fred Myers\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"location\"]).to.eq(\"Phoenix, AZ\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Fred Myers\",\r\n  \"location\": \"Phoenix, AZ\"\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/warehouse",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"warehouse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add item1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json()[\"data\"])",
+							"",
+							"pm.environment.set(\"item_1_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"coffee\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"category\"]).to.eq(\"food\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"coffee\",\r\n  \"category\": \"food\",\r\n  \"inventory\": 5,\r\n  \"price\": 10\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{warehouse_1_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{warehouse_1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add item2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json()[\"data\"])",
+							"",
+							"pm.environment.set(\"item_2_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"creamer\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"category\"]).to.eq(\"food\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"creamer\",\r\n  \"category\": \"food\",\r\n  \"inventory\": 3,\r\n  \"price\": 3\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{warehouse_2_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{warehouse_2_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add item3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json()[\"data\"])",
+							"",
+							"pm.environment.set(\"item_3_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"cleaner\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"category\"]).to.eq(\"supplies\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"cleaner\",\r\n  \"category\": \"supplies\",\r\n  \"inventory\": 15,\r\n  \"price\": 15\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{warehouse_1_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{warehouse_1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add item4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json()[\"data\"])",
+							"",
+							"pm.environment.set(\"item_4_id\", pm.response.json()[\"data\"][\"id\"]);",
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"bleach\");",
+							"    pm.expect(pm.response.json()[\"data\"][\"category\"]).to.eq(\"supplies\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"bleach\",\r\n  \"category\": \"supplies\",\r\n  \"inventory\": 15,\r\n  \"price\": 15\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{warehouse_2_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{warehouse_2_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove item1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{item_4_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{item_4_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all prodcuts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{app_url}}/product",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get item1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][\"id\"]).to.eq(pm.environment.get(\"item_1_id\"));",
+							"    pm.expect(pm.response.json()[\"data\"][\"name\"]).to.eq(\"coffee\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{app_url}}/product/{{item_1_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"product",
+						"{{item_1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all warehouses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content\", function () {",
+							"    pm.expect(pm.response.json()[\"data\"][0][\"name\"]).to.eq(\"k_mart\");",
+							"    pm.expect(pm.response.json()[\"data\"][0][\"location\"]).to.eq(\"Portland, OR\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 2147483647,\r\n  \"name\": \"k_mart\",\r\n  \"location\": \"Portland, OR\"\r\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/warehouse",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"warehouse"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
