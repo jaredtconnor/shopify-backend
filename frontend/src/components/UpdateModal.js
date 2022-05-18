@@ -8,9 +8,11 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
         <Modal.Title id="contained-modal-title-vcenter">Edit Product: {product.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      <div className="p-2">
+
         <Card>
           <Card.Body>
-            <Form onSubmit={handleFormSave}>
+            <Form onSubmit={handleClose}>
               <Form.Group controlId="ProductName">
                 <Form.Label>Product Name</Form.Label>
                 <Form.Control
@@ -18,7 +20,6 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                   name="ProductName"
                   value={productInfo.ProductName}
                   onChange={updateForm}
-                  placeholder={product.name}
                 />
               </Form.Group>
 
@@ -29,7 +30,6 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                   name="ProductCategory"
                   value={productInfo.ProductCategory}
                   onChange={updateForm}
-                  placeholder={product.category}
                 />
               </Form.Group>
 
@@ -40,7 +40,6 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                   name="ProductInvetory"
                   value={productInfo.ProductInvetory}
                   onChange={updateForm}
-                  placeholder={product.invetory}
                 />
               </Form.Group>
 
@@ -51,7 +50,6 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                   name="ProductPrice"
                   value={productInfo.ProductPrice}
                   onChange={updateForm}
-                  placeholder={product.price}
                 />
               </Form.Group>
 
@@ -59,10 +57,9 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Label>Warehouse ID</Form.Label>
                 <Form.Control
                   type="number"
-                  name="Warehouse_ID"
+                  name="ProductWarehouse"
                   value={productInfo.warehouse_id}
                   onChange={updateForm}
-                  placeholder={product.warehouse_id}
                 />
               </Form.Group>
 
@@ -71,7 +68,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
               </Button>
             </Form>
           </Card.Body>
-        </Card> 
+        </Card>
+      </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleClose}>Close</Button>

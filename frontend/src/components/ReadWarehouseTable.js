@@ -2,8 +2,7 @@ import react from "react";
 import { useState } from "react";
 import UpdateModal from "./UpdateModal";
 
-const ReadWarehouseTable = ({ warehouse, warehouses }) => {
-  const [modalShow, setModalShow] = useState(false);
+const ReadWarehouseTable = ({ warehouse, warehouses, handleDelete, warehouseInfo, setWarehouseInfo}) => {
 
   return (
     <>
@@ -12,6 +11,14 @@ const ReadWarehouseTable = ({ warehouse, warehouses }) => {
           <td>{warehouse.id}</td>
           <td>{warehouse.name}</td>
           <td>{warehouse.location}</td>
+          <td>
+            <button
+              className="btn btn-outline-danger btn-sm mr-2 m-1"
+              onClick={() => handleDelete(warehouse.id)}
+            >
+              Delete
+            </button> 
+          </td>
         </tr>
       ))}
     </>
