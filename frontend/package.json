@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "npm-run-all -p -r backend frontend",
+    "frontend-test": "react-scripts start",
     "backend": "cd ../backend && uvicorn app:app --reload",
     "frontend": "react-scripts start"
   },
