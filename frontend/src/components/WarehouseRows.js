@@ -1,6 +1,5 @@
 import react from "react";
 import { useState } from "react";
-import UpdateModal from "./UpdateModal";
 
 const WarehouseRows = ({ warehouse, warehouses, handleDelete}) => {
 

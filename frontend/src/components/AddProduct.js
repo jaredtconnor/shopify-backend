@@ -1,8 +1,11 @@
 import react, { useState } from "react";
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap'; 
+import { useNavigate } from "react-router-dom";
 
 
 const AddProduct = () => {
+
+    let navigate = useNavigate(); 
 
     const [productInfo, setProductInfo] = useState(
         {
@@ -68,7 +71,9 @@ const AddProduct = () => {
             ProductInvetory: 0,
             ProductPrice: 0,
             ProductWarehouse: 0,
-        });
+        }); 
+
+        navigate("/");
     };
 
     return (
