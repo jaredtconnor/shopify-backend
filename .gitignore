@@ -5,7 +5,6 @@ database_queries/*
 __pycache__/
 .vim/
 templates/* 
-sqlite-database.db
 backend/sqlite-database.db-shm
 backend/sqlite-database.db-wal
 
