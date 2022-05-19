@@ -1,1 +1,6 @@
 run = "npm start --prefix frontend/"
+language = "python3"
+entrypoint = "backend app.py"
+
+[packager]
+language = "python-python3-poetry"
