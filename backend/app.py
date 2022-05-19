@@ -13,7 +13,10 @@ app = FastAPI()
 
 
 ## MiddleWare
-origins = {"http://localhost:3000"}
+origins = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -138,6 +141,7 @@ async def delete_product(product_id: int):
 # =======================================================
 # Order Routes
 # =======================================================
+
 
 @app.post("/order/{product_id}")
 async def add_order(product_id: int, order_info: order_pydanticIn):

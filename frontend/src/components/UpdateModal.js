@@ -1,7 +1,7 @@
 import react from "react";
 import { Modal, Button, Form, Card } from "react-bootstrap";
 
-const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleFormSave, productInfo, setProductInfo, updateForm }) => {
+const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleFormSave, updateProductInfo,setupdateProductInfo, updateProductForm }) => {
   return (
     <Modal show={modalShow} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
@@ -18,8 +18,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Control
                   type="text"
                   name="ProductName"
-                  value={productInfo.ProductName}
-                  onChange={updateForm}
+                  value={updateProductInfo.ProductName}
+                  onChange={updateProductForm}
                 />
               </Form.Group>
 
@@ -28,8 +28,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Control
                   type="text"
                   name="ProductCategory"
-                  value={productInfo.ProductCategory}
-                  onChange={updateForm}
+                  value={updateProductInfo.ProductCategory}
+                  onChange={updateProductForm}
                 />
               </Form.Group>
 
@@ -38,8 +38,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Control
                   type="number"
                   name="ProductInvetory"
-                  value={productInfo.ProductInvetory}
-                  onChange={updateForm}
+                  value={updateProductInfo.ProductInvetory}
+                  onChange={updateProductForm}
                 />
               </Form.Group>
 
@@ -48,8 +48,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Control
                   type="number"
                   name="ProductPrice"
-                  value={productInfo.ProductPrice}
-                  onChange={updateForm}
+                  value={updateProductInfo.ProductPrice}
+                  onChange={updateProductForm}
                 />
               </Form.Group>
 
@@ -58,8 +58,8 @@ const UpdateModal = ({ product, modalShow, setModalShow, handleClose, handleForm
                 <Form.Control
                   type="number"
                   name="ProductWarehouse"
-                  value={productInfo.warehouse_id}
-                  onChange={updateForm}
+                  value={updateProductInfo.warehouse_id}
+                  onChange={updateProductForm}
                 />
               </Form.Group>
 

@@ -2,7 +2,7 @@ import react from "react";
 import { useState } from "react";
 import UpdateModal from "./UpdateModal";
 
-const ReadWarehouseTable = ({ warehouse, warehouses, handleDelete, warehouseInfo, setWarehouseInfo}) => {
+const WarehouseRows = ({ warehouse, warehouses, handleDelete}) => {
 
   return (
     <>
@@ -25,4 +25,4 @@ const ReadWarehouseTable = ({ warehouse, warehouses, handleDelete, warehouseInfo
   );
 };
 
-export default ReadWarehouseTable;
+export default WarehouseRows;
