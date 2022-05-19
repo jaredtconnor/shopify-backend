@@ -28,3 +28,5 @@ then
 fi
 
 echo
+echo "Building application..."
+npm start
