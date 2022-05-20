@@ -1,1 +1,1 @@
-run = ". run.sh"
+run = "npm start --prefix frontend/"

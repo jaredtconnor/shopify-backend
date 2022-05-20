@@ -26,7 +26,3 @@ then
       exit 1
     fi
 fi
-
-echo
-echo "Building application..."
-npm start
