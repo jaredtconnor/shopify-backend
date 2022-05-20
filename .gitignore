@@ -31,4 +31,6 @@ backend/sqlite-database.db-wal
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-frontend/.parcel-cache/*
+frontend/.parcel-cache/* 
+
+frontend/dist/*
