@@ -14,6 +14,7 @@ app = FastAPI()
 
 ## MiddleWare
 origins = [
+    "*", 
     "http://localhost:3000",
     "http://localhost:8000",
 ]
