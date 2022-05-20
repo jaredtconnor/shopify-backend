@@ -12,7 +12,3 @@ then
     fi
 fi
 
-
-echo 
-echo "Building application..." 
-cd ~/shopify-backend/frontend && npm start

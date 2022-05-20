@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "start": "npm-run-all -p -r backend frontend",
-    "build": "parcel build --log-level info src/index.html --no-source-maps --dist-dir dist/prod --no-cache --reporter @parcel/reporter-bundle-analyzer",
-    "backend": "cd ../backend && uvicorn app:app  --reload --host 0.0.0.0 --port 8000",
-    "frontend": "parcel --log-level info src/index.html --dist-dir dist/dev --port 8080"
+    "build": "parcel build src/index.html",
+    "backend": "uvicorn app:app  --reload --host 0.0.0.0 --port 8000",
+    "frontend": "parcel src/index.html --port 8080"
   },
   "author": "",
   "license": "ISC",

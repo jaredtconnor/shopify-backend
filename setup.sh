@@ -4,10 +4,10 @@ install-pkg python3.9
 
 echo
 echo "Installing Python dependencies..."
-cd backend && poetry install
+poetry install
 
 echo
 echo "Installing JavaScript dependencies..."
-cd ../frontend && npm install
+npm install
 
 echo

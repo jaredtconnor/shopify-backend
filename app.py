@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import pydantic
-from tortoise.contrib.fastapi import register_tortoise
+from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
 from uuid import uuid4
 
 from models import Product, product_pydantic, product_pydanticIn
