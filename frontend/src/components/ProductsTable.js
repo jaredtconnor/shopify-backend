@@ -21,7 +21,7 @@ const ProductsTable = () => {
   let navigate = useNavigate();
 
   const handleDelete = (product_id) => {
-    fetch("http://127.0.0.1:8000/product/" + product_id, {
+    fetch("http://0.0.0.0:8000/product/" + product_id, {
       method: "DELETE",
       headers: {
         accept: "application/json",
@@ -63,7 +63,7 @@ const ProductsTable = () => {
   }
 
   const handleWarehouseDelete = (warehouse_id) => {
-    fetch("http://127.0.0.1:8000/warehouse/" + warehouse_id, {
+    fetch("http://0.0.0.0:8000/warehouse/" + warehouse_id, {
       method: "DELETE",
       headers: {
         accept: "application/json",
@@ -87,7 +87,7 @@ const ProductsTable = () => {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/product")
+    fetch("http://0.0.0.0:8000/product")
       .then((response) => {
         return response.json();
       })
@@ -98,7 +98,7 @@ const ProductsTable = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/warehouse")
+    fetch("http://0.0.0.0:8000/warehouse")
       .then((response) => {
         return response.json();
       })
