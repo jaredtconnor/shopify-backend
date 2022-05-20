@@ -15,4 +15,4 @@ fi
 
 echo 
 echo "Building application..." 
-cd home/runner/shopfiy-backend/frontend && npm start
+cd ~/shopfiy-backend/frontend && npm start
