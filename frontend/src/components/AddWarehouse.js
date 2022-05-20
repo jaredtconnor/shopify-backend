@@ -25,7 +25,7 @@ const AddWarehouse = () => {
   const handleWarehousePost = (event) => {
     event.preventDefault();
 
-    const postUrl = "/warehouse";
+    const postUrl = "http://0.0.0.0:8000/warehouse";
 
     const newWarehouse = JSON.stringify({
       name: WarehouseInfo["WarehouseName"],

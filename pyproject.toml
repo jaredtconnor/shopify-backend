@@ -1,18 +1,16 @@
 [tool.poetry]
 name = "shopify_backend"
 version = "0.1.0"
-description = ""
+description = "Backend test for shopify"
 authors = ["Jared Connor <jaredconnor301@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pyuvis = "^0.7.4"
-uvicorn = "^0.17.6"
+Flask = "^2.1.2"
 fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
 tortoise = "^0.1.1"
 pydantic = "^1.9.1"
-Flask = "^2.1.2"
-tortoise-orm = "^0.19.1"
 
 [tool.poetry.dev-dependencies]
 

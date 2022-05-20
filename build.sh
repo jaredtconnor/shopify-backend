@@ -3,12 +3,24 @@ python3.9 --version
 retVal=$?
 if [ $retVal -ne 0 ]
 then
+    echo "Running initial setup..." 
 
-    . ./setup.sh
+    echo "Installing Python 3.9..."
+    install-pkg python3.9
+
+    echo
+    echo "Installing Python dependencies..."
+    poetry install
+
+    echo
+    echo "Installing JavaScript dependencies..."
+    cd frontend && npm install
+    cd ../
+
+    echo
     retVal=$?
     if [ $retVal -ne 0 ]
     then
       exit 1
     fi
 fi
-

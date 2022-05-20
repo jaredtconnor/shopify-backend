@@ -17,7 +17,7 @@ const UpdateProduct = () => {
         event.preventDefault();
 
         const postUrl =
-            "/product" + updateProductInfo["ProductId"];
+            "http://0.0.0.0:8000/product/" + updateProductInfo["ProductId"];
 
         const newProduct = JSON.stringify({
             name: updateProductInfo["ProductName"],
