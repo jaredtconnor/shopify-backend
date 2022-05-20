@@ -1,1 +1,5 @@
 run = "npm start --prefix frontend/"
+language = "python3"
+
+[packager]
+language = "python-python3-peotry"
