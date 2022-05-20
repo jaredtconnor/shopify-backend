@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import pydantic
 from tortoise.contrib.fastapi import register_tortoise
 from uuid import uuid4
@@ -8,9 +9,13 @@ from models import Warehouse, warehouse_pydantic, warehouse_pydanticIn
 from models import Order, order_pydantic, order_pydanticIn
 
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
-
+app.mount("", StaticFiles(directory="../dist"), name="dist")
 
 ## MiddleWare
 origins = [
@@ -29,11 +34,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+templates = Jinja2Templates(directory="../dist")
 
-@app.get("/")
-def index():
-    return {"Hello World"}
-
+@app.get("/", response_class=HTMLResponse)
+async def read_item(request: Request): 
+    return templates.TemplateResponse("index.html", {"request": request})
 
 # =======================================================
 # Warehouse Routes

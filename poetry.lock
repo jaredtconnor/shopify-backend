@@ -278,7 +278,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b4310f32ca3c08870843106a39f12563e3530e2ec3c8005065fd4579d281cbf9"
+content-hash = "89465a08e7e7f0baa3c685e16cf9a642cdc0059e38c05b2e23854c15a7554372"
 
 [metadata.files]
 aiosqlite = [
