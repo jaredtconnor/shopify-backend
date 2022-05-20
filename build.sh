@@ -12,7 +12,3 @@ then
     fi
 fi
 
-
-echo 
-echo "Building application..." 
-npm start --prefix frontend/
