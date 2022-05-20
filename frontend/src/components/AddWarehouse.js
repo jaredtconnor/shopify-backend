@@ -25,7 +25,7 @@ const AddWarehouse = () => {
   const handleWarehousePost = (event) => {
     event.preventDefault();
 
-    const postUrl = "http://0.0.0.0:8000/warehouse";
+    const postUrl = "http://localhost:8000/warehouse";
 
     const newWarehouse = JSON.stringify({
       name: WarehouseInfo["WarehouseName"],
@@ -50,6 +50,7 @@ const AddWarehouse = () => {
     });
 
     response.json().then((response) => {
+      console.log(response)
       if (response.status === "ok") {
         alert("Added Warehouse successfully");
       } else {

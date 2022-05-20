@@ -1,29 +1,19 @@
-from re import template
 from fastapi import FastAPI, Request
 import pydantic
 from tortoise.contrib.fastapi import register_tortoise
 from uuid import uuid4
 
-from models import Product, product_pydantic, product_pydanticIn
-from models import Warehouse, warehouse_pydantic, warehouse_pydanticIn
-from models import Order, order_pydantic, order_pydanticIn
+from app.models import Product, product_pydantic, product_pydanticIn
+from app.models import Warehouse, warehouse_pydantic, warehouse_pydanticIn
+from app.models import Order, order_pydantic, order_pydanticIn
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="../static"), name="static")
-
-templates = Jinja2Templates(directory="templates")
 
 ## MiddleWare
 origins = [
     "*", 
-    "http://0.0.0.0:8000",
-    "http://127.0.0.1:8000",
-    "http://localhost:3000",
-    "http://localhost:8000",
 ]
 
 app.add_middleware(
@@ -36,8 +26,8 @@ app.add_middleware(
 
 
 @app.get("/")
-async def serve_react(request: Request): 
-    return templates.TemplateResponse("index.html", {"request": request}) 
+def home(): 
+    return {"message": "Hello World"}
 
 # =======================================================
 # Warehouse Routes
@@ -46,6 +36,7 @@ async def serve_react(request: Request):
 
 @app.post("/warehouse")
 async def add_warehouse(warehouse_info: warehouse_pydanticIn):
+
     warehouse_obj = await Warehouse.create(**warehouse_info.dict(exclude_unset=True))
     response = await warehouse_pydantic.from_tortoise_orm(warehouse_obj)
     return {"status": "ok", "data": response}
@@ -203,7 +194,7 @@ async def delete_order(order_id: int):
 register_tortoise(
     app,
     db_url="sqlite://sqlite-database.db",
-    modules={"models": ["models"]},
+    modules={"models": ["app.models"]},
     generate_schemas=True,
     add_exception_handlers=True,
 )
