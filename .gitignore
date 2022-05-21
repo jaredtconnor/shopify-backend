@@ -36,3 +36,5 @@ frontend/.parcel-cache/*
 frontend/dist/*
 
 shopify-key.json
+backend/sqlite-database.db
+backend/sqlite-database.db

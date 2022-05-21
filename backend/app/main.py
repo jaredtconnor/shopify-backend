@@ -42,6 +42,3 @@ app.include_router(warehouses.router)
 @app.get("/") 
 async def root(): 
     return {"message": "Hello there!"}
-
-if __name__ == '__main__':
-    uvicorn.run(app, host="localhost", port="8000", workers=4)
