@@ -1,7 +1,7 @@
 import react from "react";
 import { useState } from "react";
 
-const WarehouseRows = ({ warehouse, warehouses, handleDelete}) => {
+const WarehouseRows = ({ warehouse, warehouses, handleWarehouseDelete}) => {
 
   return (
     <>
@@ -13,7 +13,7 @@ const WarehouseRows = ({ warehouse, warehouses, handleDelete}) => {
           <td>
             <button
               className="btn btn-outline-danger btn-sm mr-2 m-1"
-              onClick={() => handleDelete(warehouse.id)}
+              onClick={() => handleWarehouseDelete(warehouse.id)}
             >
               Delete
             </button> 

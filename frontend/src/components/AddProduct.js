@@ -31,7 +31,7 @@ const AddProduct = () => {
         console.log(productInfo)
 
         const postUrl =
-            "http://localhost:8000/product/" + productInfo["ProductWarehouse"];
+            "/api/product/" + productInfo["ProductWarehouse"];
 
         const newProduct = JSON.stringify({
             name: productInfo["ProductName"],

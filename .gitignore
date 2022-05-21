@@ -34,3 +34,5 @@ yarn-error.log*
 frontend/.parcel-cache/* 
 
 frontend/dist/*
+
+shopify-key.json

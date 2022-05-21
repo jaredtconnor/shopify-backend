@@ -21,7 +21,7 @@ const ProductsTable = () => {
   let navigate = useNavigate();
 
   const handleDelete = (product_id) => {
-    fetch("http://localhost:8000/product/" + product_id, {
+    fetch("/api/product/" + product_id, {
       method: "DELETE",
       headers: {
         accept: "application/json",
@@ -42,7 +42,9 @@ const ProductsTable = () => {
         } else {
           alert("Product unable to be deleted");
         }
+        navigate("/");
       });
+
   };
 
   const handleUpdate = (id) => {
@@ -63,7 +65,7 @@ const ProductsTable = () => {
   }
 
   const handleWarehouseDelete = (warehouse_id) => {
-    fetch("http://localhost:8000/warehouse/" + warehouse_id, {
+    fetch("/api/warehouse/" + warehouse_id, {
       method: "DELETE",
       headers: {
         accept: "application/json",
@@ -77,17 +79,17 @@ const ProductsTable = () => {
           const filteredWarehouses = warehouses.filter(
             (warehouse) => warehouse.id !== warehouse_id
           );
-          console.log(filteredWarehouses);
-          setProducts(filteredWarehouses);
+          setWarehouses(filteredWarehouses);
           alert("Deleted");
         } else {
           alert("Unable to be deleted");
         }
+        navigate("/");
       });
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/product")
+    fetch("/api/product")
       .then((response) => {
         return response.json();
       })
@@ -98,7 +100,7 @@ const ProductsTable = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8000/warehouse")
+    fetch("/api/warehouse")
       .then((response) => {
         return response.json();
       })
@@ -150,7 +152,7 @@ const ProductsTable = () => {
           <tbody>
             <WarehouseRows
               warehouses={warehouses}
-              handleDelete={handleWarehouseDelete}
+              handleWarehouseDelete={handleWarehouseDelete}
             />
           </tbody>
         </Table>

@@ -5,6 +5,10 @@ if [ $retVal -ne 0 ]
 then
     echo "Running initial setup..." 
 
+    echo "Installing docker"
+    install-pkg docker
+    install-pkg docker-compose
+
     echo "Installing Python 3.9..."
     install-pkg python3.9
 
