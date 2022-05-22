@@ -6,7 +6,7 @@
     "start": "npm-run-all -p -r frontend backend",
     "build": "parcel build src/index.html",
     "frontend": "parcel src/index.html -p 3000",
-    "backend": "cd ../backend && uvicorn app.main:app --reload --root-path /api --port 8000 --proxy-headers --host 127.0.0.1"
+    "backend": "cd ../backend && uvicorn app.main:app --reload --root-path /api --port 8000 --proxy-headers --host 127.0.0.1 --lifespan on"
   },
   "author": "",
   "license": "ISC",
