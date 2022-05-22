@@ -1,106 +1,105 @@
-import react, { useEffect, useContext, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import react, { useEffect, useContext, useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-import { ProductContext } from "../ProductContext";
-import { UpdateProductContext } from "../ProductChangeContext";
-import { WarehouseContext } from "../WarehouseContext";
-import { UpdateWarehouseContext } from "../WarehouseChangeContext";
+import { ProductContext } from '../ProductContext';
+import { UpdateProductContext } from '../ProductChangeContext';
+import { WarehouseContext } from '../WarehouseContext';
+import { UpdateWarehouseContext } from '../WarehouseChangeContext';
 
-import ProductsRows from "./ProductRows"
-import WarehouseRows from "./WarehouseRows";
-import UpdateProduct from "./UpdateProduct";
+import ProductsRows from './ProductRows';
+import WarehouseRows from './WarehouseRows';
+import UpdateProduct from './UpdateProduct';
 
 const ProductsTable = () => {
   const [products, setProducts] = useContext(ProductContext);
-  const [updateProductInfo, setUpdateProductInfo] = useContext(UpdateProductContext)
+  const [updateProductInfo, setUpdateProductInfo] =
+    useContext(UpdateProductContext);
   const [warehouses, setWarehouses] = useContext(WarehouseContext);
-  const [updateWarehouseInfo, setUpdateWarehouseInfo] = useContext(UpdateWarehouseContext)
+  const [updateWarehouseInfo, setUpdateWarehouseInfo] = useContext(
+    UpdateWarehouseContext
+  );
   const [modalShow, setModalShow] = useState(false);
 
   let navigate = useNavigate();
 
   const handleDelete = (product_id) => {
-    fetch("/api/product/" + product_id, {
-      method: "DELETE",
+    fetch('/api/product/' + product_id, {
+      method: 'DELETE',
       headers: {
-        accept: "application/json",
+        accept: 'application/json',
       },
     })
       .then((response) => {
         return response.json();
       })
       .then((results) => {
-        if (results.status === "ok") {
+        if (results.status === 'ok') {
           console.log(products);
           const filteredProducts = products.filter(
             (product) => product.id !== product_id
           );
           console.log(filteredProducts);
           setProducts(filteredProducts);
-          alert("Product Deleted");
+          alert('Product Deleted');
         } else {
-          alert("Product unable to be deleted");
+          alert('Product unable to be deleted');
         }
-        navigate("/");
+        navigate('/');
       });
-
   };
 
   const handleUpdate = (id) => {
-
-    const product = products.filter(product => product.id === id)[0]
+    const product = products.filter((product) => product.id === id)[0];
 
     setUpdateProductInfo({
-
       ProductId: product.id,
       ProductName: product.name,
       ProductCategory: product.category,
       ProductInvetory: product.inventory,
-      ProductPrice: product.price
+      ProductPrice: product.price,
+    });
 
-    })
-
-    navigate("/updateproduct")
-  }
+    navigate('/updateproduct');
+  };
 
   const handleWarehouseDelete = (warehouse_id) => {
-    fetch("/api/warehouse/" + warehouse_id, {
-      method: "DELETE",
+    fetch('/api/warehouse/' + warehouse_id, {
+      method: 'DELETE',
       headers: {
-        accept: "application/json",
+        accept: 'application/json',
       },
     })
       .then((response) => {
         return response.json();
       })
       .then((results) => {
-        if (results.status === "ok") {
+        if (results.status === 'ok') {
           const filteredWarehouses = warehouses.filter(
             (warehouse) => warehouse.id !== warehouse_id
           );
           setWarehouses(filteredWarehouses);
-          alert("Deleted");
+          alert('Deleted');
         } else {
-          alert("Unable to be deleted");
+          alert('Unable to be deleted');
         }
-        navigate("/");
+        navigate('/');
       });
   };
 
   useEffect(() => {
-    fetch("/api/product")
+    fetch('/api/product')
       .then((response) => {
         return response.json();
       })
       .then((results) => {
-        console.log(results)
+        console.log(results);
         setProducts(results.data);
       });
   }, []);
 
   useEffect(() => {
-    fetch("/api/warehouse")
+    fetch('/api/warehouse')
       .then((response) => {
         return response.json();
       })
@@ -136,7 +135,9 @@ const ProductsTable = () => {
       </div>
 
       <div className="p-2">
-        <Button href="/addproduct" variant="secondary" className="mr-4">Add Product</Button>
+        <Button href="/addproduct" variant="secondary" className="mr-4">
+          Add Product
+        </Button>
       </div>
 
       <div className="p-2">
@@ -158,7 +159,9 @@ const ProductsTable = () => {
         </Table>
       </div>
       <div className="p-2">
-        <Button href="/addwarehouse" variant="secondary" className="mr-4">Add Warehouse</Button>
+        <Button href="/addwarehouse" variant="secondary" className="mr-4">
+          Add Warehouse
+        </Button>
       </div>
     </div>
   );

@@ -1,14 +1,17 @@
-import react from "react";
-import { useState } from "react";
-import { Modal, Button, Alert } from "react-bootstrap";
-import UpdateProduct from "./UpdateProduct";
+import react from 'react';
+import { useState } from 'react';
+import { Modal, Button, Alert } from 'react-bootstrap';
+import UpdateProduct from './UpdateProduct';
 
-const ReadProductTable = ({ product, products, handleDelete, handleUpdate}) => {
-
+const ReadProductTable = ({
+  product,
+  products,
+  handleDelete,
+  handleUpdate,
+}) => {
   return (
     <>
       {products.map((product) => (
-        
         <tr key={product.id}>
           <td>{product.id}</td>
           <td>{product.name}</td>
@@ -17,7 +20,7 @@ const ReadProductTable = ({ product, products, handleDelete, handleUpdate}) => {
           <td>{product.price}</td>
           <td>
             <button
-              className="btn btn-outline-info btn-sm ml-1 mr-2 m-1" 
+              className="btn btn-outline-info btn-sm ml-1 mr-2 m-1"
               onClick={() => handleUpdate(product.id)}
             >
               Update
@@ -27,13 +30,11 @@ const ReadProductTable = ({ product, products, handleDelete, handleUpdate}) => {
               onClick={() => handleDelete(product.id)}
             >
               Delete
-            </button> 
+            </button>
           </td>
         </tr>
-      ))
-      
-      }
-    </> 
+      ))}
+    </>
   );
 };
 

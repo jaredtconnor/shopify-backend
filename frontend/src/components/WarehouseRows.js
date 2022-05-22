@@ -1,8 +1,7 @@
-import react from "react";
-import { useState } from "react";
+import react from 'react';
+import { useState } from 'react';
 
-const WarehouseRows = ({ warehouse, warehouses, handleWarehouseDelete}) => {
-
+const WarehouseRows = ({ warehouse, warehouses, handleWarehouseDelete }) => {
   return (
     <>
       {warehouses.map((warehouse) => (
@@ -16,7 +15,7 @@ const WarehouseRows = ({ warehouse, warehouses, handleWarehouseDelete}) => {
               onClick={() => handleWarehouseDelete(warehouse.id)}
             >
               Delete
-            </button> 
+            </button>
           </td>
         </tr>
       ))}

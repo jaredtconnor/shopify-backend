@@ -1,143 +1,133 @@
-import react, { useState } from "react";
-import { Form, Button, Card } from 'react-bootstrap'; 
-import { useNavigate } from "react-router-dom";
-
+import react, { useState } from 'react';
+import { Form, Button, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
+  let navigate = useNavigate();
 
-    let navigate = useNavigate(); 
+  const [productInfo, setProductInfo] = useState({
+    ProductName: '',
+    ProductCategory: '',
+    ProductInvetory: 0,
+    ProductPrice: 0,
+    ProductWarehouse: 0,
+  });
 
-    const [productInfo, setProductInfo] = useState(
-        {
-            ProductName: "",
-            ProductCategory: "",
-            ProductInvetory: 0,
-            ProductPrice: 0,
-            ProductWarehouse: 0
-        }
-    )
+  const updateForm = (event) => {
+    setProductInfo({ ...productInfo, [event.target.name]: event.target.value });
+  };
 
-    const updateForm = (event) => {
+  const handlePost = (event) => {
+    event.preventDefault();
 
-        setProductInfo(
-            { ...productInfo, [event.target.name]: event.target.value }
-        )
+    console.log(productInfo);
 
-    }
+    const postUrl = '/api/product/' + productInfo['ProductWarehouse'];
 
-    const handlePost = (event) => {
-        event.preventDefault();
+    const newProduct = JSON.stringify({
+      name: productInfo['ProductName'],
+      category: productInfo['ProductCategory'],
+      inventory: parseInt(productInfo['ProductInvetory']),
+      price: parseInt(productInfo['ProductPrice']),
+    });
 
-        console.log(productInfo)
+    postData(postUrl, newProduct);
+  };
 
-        const postUrl =
-            "/api/product/" + productInfo["ProductWarehouse"];
+  const postData = async (postUrl, productToAdd) => {
+    const response = await fetch(postUrl, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: productToAdd,
+    });
 
-        const newProduct = JSON.stringify({
-            name: productInfo["ProductName"],
-            category: productInfo["ProductCategory"],
-            inventory: parseInt(productInfo["ProductInvetory"]),
-            price: parseInt(productInfo["ProductPrice"]),
-        });
+    response.json().then((response) => {
+      if (response.status === 'ok') {
+        alert('Product added');
+      } else {
+        alert('Failed to add product');
+      }
+    });
 
-        postData(postUrl, newProduct);
-    };
+    setProductInfo({
+      ProductName: '',
+      ProductCategory: '',
+      ProductInvetory: 0,
+      ProductPrice: 0,
+      ProductWarehouse: 0,
+    });
 
-    const postData = async (postUrl, productToAdd) => {
-        const response = await fetch(postUrl, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: productToAdd,
-        });
+    navigate('/');
+  };
 
-        response.json().then((response) => {
-            if (response.status === "ok") {
-                alert("Product added");
-            } else {
-                alert("Failed to add product");
-            }
-        });
+  return (
+    <Card>
+      <Card.Body>
+        <Form onSubmit={handlePost}>
+          <Form.Group controlId="ProductName">
+            <Form.Label>Product Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="ProductName"
+              value={productInfo.ProductName}
+              onChange={updateForm}
+            />
+          </Form.Group>
 
-        setProductInfo({
-            ProductName: "",
-            ProductCategory: "",
-            ProductInvetory: 0,
-            ProductPrice: 0,
-            ProductWarehouse: 0,
-        }); 
+          <Form.Group controlId="ProductCategory">
+            <Form.Label>Category</Form.Label>
+            <Form.Control
+              type="text"
+              name="ProductCategory"
+              value={productInfo.ProductCategory}
+              onChange={updateForm}
+            />
+          </Form.Group>
 
-        navigate("/");
-    };
+          <Form.Group controlId="ProductInvetory">
+            <Form.Label>Number of Invetory</Form.Label>
+            <Form.Control
+              type="number"
+              name="ProductInvetory"
+              value={productInfo.ProductInvetory}
+              onChange={updateForm}
+            />
+          </Form.Group>
 
-    return (
-        <Card>
-            <Card.Body>
-                <Form onSubmit={handlePost}>
-                    <Form.Group controlId="ProductName">
-                        <Form.Label>Product Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="ProductName"
-                            value={productInfo.ProductName}
-                            onChange={updateForm}
-                        />
-                    </Form.Group>
+          <Form.Group controlId="ProductPrice">
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              type="number"
+              name="ProductPrice"
+              value={productInfo.ProductPrice}
+              onChange={updateForm}
+            />
+          </Form.Group>
 
-                    <Form.Group controlId="ProductCategory">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="ProductCategory"
-                            value={productInfo.ProductCategory}
-                            onChange={updateForm}
-                        />
-                    </Form.Group>
+          <Form.Group controlId="ProductWarehouse">
+            <Form.Label>Warehouse ID</Form.Label>
+            <Form.Control
+              type="number"
+              name="ProductWarehouse"
+              value={productInfo.ProductWarehouse}
+              onChange={updateForm}
+            />
+          </Form.Group>
 
-                    <Form.Group controlId="ProductInvetory">
-                        <Form.Label>Number of Invetory</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="ProductInvetory"
-                            value={productInfo.ProductInvetory}
-                            onChange={updateForm}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="ProductPrice">
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="ProductPrice"
-                            value={productInfo.ProductPrice}
-                            onChange={updateForm}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="ProductWarehouse">
-                        <Form.Label>Warehouse ID</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="ProductWarehouse"
-                            value={productInfo.ProductWarehouse}
-                            onChange={updateForm}
-                        />
-                    </Form.Group>
-
-                    <Button className="m-1" variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </Card.Body>
-        </Card>
-    )
-}
-
+          <Button className="m-1" variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
+};
 
 export default AddProduct;

@@ -4,8 +4,8 @@ const path = require("path");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    filename: "bundle.[hash].js",
-    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "build"),
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -14,7 +14,14 @@ module.exports = {
   ],
   resolve: {
     modules: [__dirname, "src", "node_modules"],
-    extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    extensions: [".js", ".jsx", ".tsx", ".ts"],
+  },
+  devSever: {
+    static: {
+      directory: path.join(__dirname, "build"),
+    },
+    compress: true,
+    port: 3000,
   },
   module: {
     rules: [
@@ -30,7 +37,7 @@ module.exports = {
       {
         test: /\.png|svg|jpg|gif$/,
         use: ["file-loader"],
-      }, 
+      },
     ],
   },
 };

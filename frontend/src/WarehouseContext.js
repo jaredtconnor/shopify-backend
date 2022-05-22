@@ -1,13 +1,13 @@
-import react, { useState, createContext } from "react"
+import react, { useState, createContext } from 'react';
 
-export const WarehouseContext = createContext(); 
+export const WarehouseContext = createContext();
 
-export const WarehouseProvider = (props) => { 
+export const WarehouseProvider = (props) => {
   const [warehouses, setWarehouses] = useState([]);
-  
-  return ( 
-      <WarehouseContext.Provider value={[warehouses, setWarehouses]}> 
-        {props.children}  
-      </WarehouseContext.Provider>
+
+  return (
+    <WarehouseContext.Provider value={[warehouses, setWarehouses]}>
+      {props.children}
+    </WarehouseContext.Provider>
   );
-}
+};

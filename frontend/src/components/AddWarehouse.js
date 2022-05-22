@@ -1,35 +1,30 @@
-import react, { useState } from "react";
+import react, { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const AddWarehouse = () => {
-
   let navigate = useNavigate();
 
-  const [WarehouseInfo, setWarehouseInfo] = useState(
-    {
-      WarehouseName: "",
-      WarehouseLocation: "",
-    }
-  );
+  const [WarehouseInfo, setWarehouseInfo] = useState({
+    WarehouseName: '',
+    WarehouseLocation: '',
+  });
 
-  const updateForm = (event) => { 
-
-    setWarehouseInfo( 
-      {...WarehouseInfo, [event.target.name]: event.target.value}
-    )
-
-  }
-
+  const updateForm = (event) => {
+    setWarehouseInfo({
+      ...WarehouseInfo,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleWarehousePost = (event) => {
     event.preventDefault();
 
-    const postUrl = "/api/warehouse";
+    const postUrl = '/api/warehouse';
 
     const newWarehouse = JSON.stringify({
-      name: WarehouseInfo["WarehouseName"],
-      location: WarehouseInfo["WarehouseLocation"],
+      name: WarehouseInfo['WarehouseName'],
+      location: WarehouseInfo['WarehouseLocation'],
     });
 
     postWarehouseData(postUrl, newWarehouse);
@@ -37,35 +32,34 @@ const AddWarehouse = () => {
 
   const postWarehouseData = async (postUrl, warehouseToAdd) => {
     const response = await fetch(postUrl, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       body: warehouseToAdd,
     });
 
     response.json().then((response) => {
-      console.log(response)
-      if (response.status === "ok") {
-        alert("Added Warehouse successfully");
+      console.log(response);
+      if (response.status === 'ok') {
+        alert('Added Warehouse successfully');
       } else {
-        alert("Failed to add Warehouse");
+        alert('Failed to add Warehouse');
       }
     });
 
     setWarehouseInfo({
-      WarehouseName: "",
-      WarehouseLocation: "",
+      WarehouseName: '',
+      WarehouseLocation: '',
     });
 
-    navigate("/")
+    navigate('/');
   };
-
 
   return (
     <Card>
@@ -97,7 +91,7 @@ const AddWarehouse = () => {
         </Form>
       </Card.Body>
     </Card>
-  )
+  );
 };
 
 export default AddWarehouse;
