@@ -5,21 +5,16 @@ if [ $retVal -ne 0 ]
 then
     echo "Running initial setup..." 
 
-    echo "Installing docker"
-    install-pkg docker
-    install-pkg docker-compose
-
     echo "Installing Python 3.9..."
     install-pkg python3.9
 
     echo
     echo "Installing Python dependencies..."
-    poetry install
+    pip install -r backend/requirements.txt
 
     echo
     echo "Installing JavaScript dependencies..."
-    cd frontend && npm install
-    cd ../
+    npm install --prefix frontend
 
     echo
     retVal=$?
