@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm run start-frontend",
+    "start": "npm-run-all -p -r frontend backend",
     "build": "parcel build src/index.html",
-    "start-frontend": "parcel src/index.html -p 3000"
+    "frontend": "parcel src/index.html -p 3000",
+    "backend": "cd ../backend && uvicorn app.main:app --reload --root-path /api --port 8000 --proxy-headers --host 127.0.0.1"
   },
   "author": "",
   "license": "ISC",

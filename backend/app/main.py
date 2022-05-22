@@ -13,6 +13,9 @@ app = FastAPI(
     version=api_config.API_VERSION
 )
 
+app.include_router(products.router)
+app.include_router(warehouses.router)
+
 ## MiddleWare
 origins = [
     "*", 
@@ -35,9 +38,6 @@ register_tortoise(
     add_exception_handlers=True
 )
 
-
-app.include_router(products.router)
-app.include_router(warehouses.router)
 
 @app.get("/") 
 async def root(): 
