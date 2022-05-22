@@ -10,7 +10,7 @@ then
 
     echo
     echo "Installing Python dependencies..."
-    pip install -r backend/requirements.txt
+    poetry install
 
     echo
     echo "Installing JavaScript dependencies..."
